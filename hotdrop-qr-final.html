@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HotDrop BH — QR Code</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@400;600;700&family=Playfair+Display:ital,wght@0,700;1,400&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'DM Sans',sans-serif;background:#111;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px 16px;gap:20px;}
+
+/* FLYER */
+.flyer{width:360px;background:#0D0100;border-radius:24px;overflow:hidden;box-shadow:0 30px 80px rgba(255,69,0,.25),0 0 0 1px rgba(255,120,0,.15);}
+
+/* TOP */
+.flyer-top{background:linear-gradient(160deg,#FF4500 0%,#FF6B00 50%,#D4A843 100%);padding:28px 24px 22px;text-align:center;position:relative;overflow:hidden;}
+.flyer-top::before{content:'';position:absolute;top:-50px;right:-50px;width:200px;height:200px;background:rgba(255,255,255,.08);border-radius:50%;}
+.flyer-top::after{content:'';position:absolute;bottom:-60px;left:-30px;width:180px;height:180px;background:rgba(0,0,0,.12);border-radius:50%;}
+.fire{font-size:2.8rem;display:block;margin-bottom:6px;position:relative;z-index:1;}
+.brand{font-family:'Bebas Neue',sans-serif;font-size:3.2rem;color:white;letter-spacing:4px;line-height:1;position:relative;z-index:1;text-shadow:0 4px 20px rgba(0,0,0,.3);}
+.brand-sub{font-size:.68rem;color:rgba(255,255,255,.8);letter-spacing:3px;text-transform:uppercase;margin-top:5px;position:relative;z-index:1;}
+.bh-badge{display:inline-flex;align-items:center;gap:5px;background:rgba(0,0,0,.2);color:white;font-size:.65rem;font-weight:700;padding:4px 12px;border-radius:20px;margin-top:8px;letter-spacing:1px;text-transform:uppercase;position:relative;z-index:1;}
+
+/* QR SECTION */
+.qr-section{background:#FFF8EE;padding:26px 24px 20px;text-align:center;}
+.scan-label{font-size:.65rem;font-weight:700;color:#FF4500;text-transform:uppercase;letter-spacing:2px;margin-bottom:14px;display:flex;align-items:center;justify-content:center;gap:8px;}
+.scan-label::before,.scan-label::after{content:'';flex:1;height:1px;background:linear-gradient(90deg,transparent,#FF4500,transparent);}
+.qr-box{display:inline-block;background:white;padding:14px;border-radius:16px;box-shadow:0 8px 30px rgba(255,69,0,.15),0 2px 8px rgba(0,0,0,.08);border:2px solid rgba(255,107,0,.12);position:relative;}
+.qr-box::before{content:'🔥';position:absolute;top:-14px;left:50%;transform:translateX(-50%);font-size:1.3rem;background:#FFF8EE;padding:0 6px;}
+#qrcode canvas,#qrcode img{border-radius:8px;display:block;}
+.scan-desc{margin-top:12px;font-size:.84rem;color:#5C3A1A;font-weight:600;}
+.scan-desc span{color:#FF4500;}
+.link-url{font-size:.62rem;color:#A07850;margin-top:5px;word-break:break-all;}
+
+/* RESTAURANTS */
+.rest-section{background:#0A0100;padding:16px 20px;}
+.rest-title{font-size:.62rem;font-weight:700;color:#D4A843;text-transform:uppercase;letter-spacing:2px;margin-bottom:10px;text-align:center;}
+.rest-grid{display:grid;grid-template-columns:1fr 1fr;gap:5px;}
+.rest-item{display:flex;align-items:center;gap:6px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.06);border-radius:7px;padding:6px 9px;}
+.ri-emoji{font-size:.9rem;}
+.ri-name{font-size:.68rem;color:rgba(255,255,255,.8);font-weight:500;}
+
+/* BOTTOM */
+.flyer-bottom{background:linear-gradient(135deg,#FF4500,#FF6B00);padding:14px 22px;display:flex;align-items:center;justify-content:space-between;}
+.wa-info{display:flex;align-items:center;gap:10px;}
+.wa-icon{width:34px;height:34px;background:white;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0;}
+.wa-label{font-size:.58rem;color:rgba(255,255,255,.8);text-transform:uppercase;letter-spacing:1px;font-weight:600;}
+.wa-num{font-size:.88rem;color:white;font-weight:700;letter-spacing:.5px;}
+.delivery-tag{background:rgba(0,0,0,.2);color:white;font-size:.62rem;font-weight:700;padding:6px 12px;border-radius:20px;text-align:center;line-height:1.5;text-transform:uppercase;}
+
+/* BUTTONS */
+.btn-row{display:flex;gap:10px;justify-content:center;}
+.btn{padding:11px 22px;border:none;border-radius:10px;font-family:'DM Sans',sans-serif;font-size:.82rem;font-weight:700;cursor:pointer;transition:all .2s;}
+.btn-fire{background:linear-gradient(135deg,#FF4500,#FF6B00);color:white;box-shadow:0 4px 16px rgba(255,69,0,.4);}
+.btn-fire:hover{transform:translateY(-2px);}
+.hint{color:#444;font-size:.68rem;text-align:center;}
+
+@media print{
+  body{background:white;padding:0;}
+  .btn-row,.hint{display:none;}
+  .flyer{box-shadow:none;border-radius:0;width:100%;}
+}
+</style>
+</head>
+<body>
+
+<div class="flyer">
+
+  <!-- TOP -->
+  <div class="flyer-top">
+    <span class="fire">🔥</span>
+    <div class="brand">HotDrop BH</div>
+    <div class="brand-sub">Manama Food Delivery</div>
+    <div class="bh-badge">🇧🇭 Bahrain · Fast Delivery · Your Door</div>
+  </div>
+
+  <!-- QR CODE -->
+  <div class="qr-section">
+    <div class="scan-label">Scan to Order Now</div>
+    <div class="qr-box">
+      <div id="qrcode"></div>
+    </div>
+    <div class="scan-desc">📱 Scan with your camera <span>→ Order instantly!</span></div>
+    <div class="link-url">legendary-crisp-503c18.netlify.app</div>
+  </div>
+
+  <!-- RESTAURANTS -->
+  <div class="rest-section">
+    <div class="rest-title">✨ Available Restaurants</div>
+    <div class="rest-grid">
+      <div class="rest-item"><span class="ri-emoji">🔥</span><span class="ri-name">Black Stripe</span></div>
+      <div class="rest-item"><span class="ri-emoji">🍗</span><span class="ri-name">KFC</span></div>
+      <div class="rest-item"><span class="ri-emoji">🍔</span><span class="ri-name">McDonald's</span></div>
+      <div class="rest-item"><span class="ri-emoji">✏️</span><span class="ri-name">Any Restaurant</span></div>
+    </div>
+  </div>
+
+  <!-- BOTTOM -->
+  <div class="flyer-bottom">
+    <div class="wa-info">
+      <div class="wa-icon">💬</div>
+      <div>
+        <div class="wa-label">WhatsApp Us</div>
+        <div class="wa-num">+973 38714405</div>
+      </div>
+    </div>
+    <div class="delivery-tag">🛵 30–50<br>Minutes</div>
+  </div>
+
+</div>
+
+<!-- BUTTONS -->
+<div class="btn-row">
+  <button class="btn btn-fire" onclick="window.print()">🖨️ Print / Save PDF</button>
+</div>
+<div class="hint">Print karo aur offices, shops, buildings mein lagao! 📌</div>
+
+<script>
+new QRCode(document.getElementById('qrcode'), {
+  text: 'https://legendary-crisp-503c18.netlify.app',
+  width: 200,
+  height: 200,
+  colorDark: '#0D0100',
+  colorLight: '#ffffff',
+  correctLevel: QRCode.CorrectLevel.H
+});
+</script>
+</body>
+</html>
